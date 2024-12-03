@@ -27,6 +27,8 @@ const ChatPage = () => {
           );
       } catch (error) {
           console.error('Error fetching initial messages:', error);
+            window.location.replace("/");
+            alert("Please login to continue");
       } finally {
           setLoading(false);
       }
