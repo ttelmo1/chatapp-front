@@ -56,13 +56,11 @@ const ChatPage = () => {
     
 
     useEffect(() => {
-
       fetchInitialMessages();
       const setupSignalRConnection = async () => {
 
           const connection = await connectToSignalR();
           await connection.invoke("JoinRoom", roomId);
-
           connection.on("ReceiveMessage", (userId, text, timestamp) => {
             setMessages(prev => [...prev.slice(-49), 
                 { 
@@ -78,7 +76,6 @@ const ChatPage = () => {
       const connectionPromise = setupSignalRConnection();
       return () => {
           connectionPromise.then(async connection => {
-              await connection.invoke("LeaveRoom", roomId); 
               await connection.stop();
           });
       };
