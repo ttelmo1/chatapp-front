@@ -23,9 +23,13 @@ const RoomPage = () => {
 
   const createRoom = async () => {
     try {
-      const response = await api.post('/chat/rooms');
-      console.log(response);
-      navigate(`/chat/${response.data.roomId}`);
+      const token = localStorage.getItem('token');
+      const response = await api.post('/chat/rooms', {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      navigate(`/chat/${response.data}`);
     } catch (err) {
       console.error('Failed to create room:', err);
     }

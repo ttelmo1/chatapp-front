@@ -11,6 +11,9 @@ const LoginPage = () => {
   const handleLogin = async () => {
     try {
       const response = await api.post('http://localhost:5125/api/auth/login', { username, password });
+      if(response.status !== 200) {
+        alert('Invalid credentials. Please try again.');
+      }
       localStorage.setItem('token', response.data);
       localStorage.setItem('username', username);
       navigate('/rooms');
