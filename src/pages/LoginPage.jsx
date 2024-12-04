@@ -11,8 +11,7 @@ const LoginPage = () => {
   const handleLogin = async () => {
     try {
       const response = await api.post('http://localhost:5125/api/auth/login', { username, password });
-      console.log(response.data);
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', response.data);
       localStorage.setItem('username', username);
       navigate('/rooms');
     } catch (err) {

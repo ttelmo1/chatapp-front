@@ -13,7 +13,12 @@ const ChatPage = () => {
 
     const fetchInitialMessages = async () => {
       try {
-          const response = await api.get(`/chat/rooms/${roomId}/messages`);
+          const token = localStorage.getItem('token');
+          const response = await api.get(`/chat/rooms/${roomId}/messages`, {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              },
+          });
           if (!response.status === 200) {
               throw new Error(`Failed to fetch messages: ${response.statusText}`);
           }
@@ -88,9 +93,6 @@ const ChatPage = () => {
       <div className="flex flex-col h-screen bg-gray-100">
         <header className="p-4 bg-gray-800 text-white flex justify-between">
           <span>Room ID: {roomId}</span>
-          <button onClick={() => leaveRoom()} className="bg-red-500 p-2 rounded">
-            Leave Room
-          </button>
         </header>
         <div className="flex-1 p-4 overflow-y-scroll bg-white">
           {messages.map((msg, index) => (
@@ -112,6 +114,9 @@ const ChatPage = () => {
           />
           <button onClick={sendMessage} className="bg-blue-500 text-white p-2 rounded">
             Send
+          </button>
+          <button onClick={() => leaveRoom()} className="bg-red-500 p-2 rounded">
+            Leave Room
           </button>
         </footer>
       </div>

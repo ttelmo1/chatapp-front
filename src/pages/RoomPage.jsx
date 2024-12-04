@@ -8,22 +8,35 @@ const RoomPage = () => {
 
   const fetchRooms = async () => {
     try {
-      const response = await api.get('/chat/rooms');
-      console.log(response.data);
+      const token = localStorage.getItem('token'); 
+      const response = await api.get('/chat/rooms', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setRooms(response.data);
     } catch (err) {
       console.error('Failed to fetch rooms:', err);
+      window.location.replace("/");
     }
   };
 
   const createRoom = async () => {
     try {
       const response = await api.post('/chat/rooms');
-      navigate(`/chat/${response.data.id}`);
+      console.log(response);
+      navigate(`/chat/${response.data.roomId}`);
     } catch (err) {
       console.error('Failed to create room:', err);
     }
   };
+
+  const Logout = async () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    window.location.replace("/");
+  }
+
 
   useEffect(() => {
     fetchRooms();
@@ -50,6 +63,13 @@ const RoomPage = () => {
         >
           Create Room
         </button>
+        <button
+          onClick={Logout}
+          className="bg-green-500 text-white p-2 w-full rounded hover:bg-green-600"
+        >
+          Logout
+        </button>
+
       </div>
     </div>
   );
