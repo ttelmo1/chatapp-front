@@ -30,7 +30,11 @@
     ```bash
     npm install
     ```
-4. Run the server:
+4. Ensure to configure your enviroments in:
+    ```bash
+    src/services/api.js and signalr.js
+    ```
+5. Run the server:
     ```bash
     npm run dev
     ```
